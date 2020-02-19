@@ -16,3 +16,7 @@ def get_data(request):
 
 def cgu(request):
     return render(request, "homepage/cgu.html", {})
+
+
+def info(request):
+    return render(request, "homepage/page info.html", {})

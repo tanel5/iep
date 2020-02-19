@@ -5,4 +5,5 @@ app_name = 'homepage'
 urlpatterns = [
     path('', views.get_data, name='homepage'),
     path('cgu', views.cgu, name='cgu'),
+    path('info', views.info, name='info'),
 ]

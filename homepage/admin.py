@@ -18,6 +18,7 @@ def export_csv(modeladmin, request, queryset):
         smart_str(u"code postal"),
         smart_str(u"telephone"),
         smart_str(u"email"),
+        smart_str(u"tranche_horaire")
     ])
     for obj in queryset:
         writer.writerow([
@@ -27,6 +28,7 @@ def export_csv(modeladmin, request, queryset):
             smart_str(obj.code_postal),
             smart_str(obj.tel),
             obj.email,
+            obj.tranche_horaire,
         ])
     return response
 
@@ -46,6 +48,7 @@ def export_xls(modeladmin, request, queryset):
         (u"code postal", 4000),
         (u"telephone", 4000),
         (u"email", 6000),
+        (u"tranche_horaire", 6000),
     ]
 
     font_style = xlwt.XFStyle()
@@ -68,6 +71,7 @@ def export_xls(modeladmin, request, queryset):
             obj.code_postal,
             obj.tel,
             obj.email,
+            obj.tranche_horaire,
         ]
         for col_num in range(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)
@@ -89,7 +93,7 @@ export_csv.short_description = u"Export CSV"
 
 
 class LeadAdmin(admin.ModelAdmin):
-    list_display = ('date_creation', 'sold', '__str__', 'code_postal', 'email', 'tel')
+    list_display = ('date_creation', 'sold', '__str__', 'code_postal', 'email', 'tel', 'tranche_horaire')
     date_hierarchy = 'date_creation'
     list_editable = ('sold',)
     list_filter = ['date_creation', 'sold', 'code_postal']

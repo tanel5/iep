@@ -1,7 +1,9 @@
 from django.db import models
-from django.forms import ModelForm
+from django.forms import ModelForm, Select
+from django.forms import TextInput
 
 # Create your models here.
+from prompt_toolkit.widgets import TextArea
 
 
 class Lead(models.Model):
@@ -12,6 +14,19 @@ class Lead(models.Model):
     tel = models.CharField(max_length=10)
     date_creation = models.DateField(auto_now_add=True)
     sold = models.BooleanField(default=False)
+    a = 'entre 10h et 12h'
+    b = 'entre 12h et 14h'
+    c = 'entre 14h et 16h'
+    d = 'entre 16h et 18h'
+    e = 'entre 18h et 20h'
+    TRANCHE_HORAIRES = [
+        (a, 'entre 10h et 12h'),
+        (b, 'entre 12h et 14h'),
+        (c, 'entre 14h et 16h'),
+        (d, 'entre 16h et 18h'),
+        (e, 'entre 18h et 20h')
+    ]
+    tranche_horaire = models.CharField(max_length=200, choices=TRANCHE_HORAIRES, default=None)
     """g = 'garage'
     s = 'caves et sous-sol'
     c = 'combles'
@@ -59,5 +74,12 @@ class Lead(models.Model):
 class LeadForm(ModelForm):
     class Meta:
         model = Lead
-        fields = ['nom', 'prenom', 'code_postal', 'email', 'tel']
-
+        fields = ['nom', 'prenom', 'code_postal', 'email', 'tel', 'tranche_horaire']
+        widgets = {
+            'nom': TextInput(attrs={'placeholder': 'Votre nom', 'size': 30}),
+            'prenom': TextInput(attrs={'placeholder': 'Votre prénom', 'size': 30}),
+            'code_postal': TextInput(attrs={'placeholder': 'Votre code postal', 'size': 30}),
+            'email': TextInput(attrs={'placeholder': 'votre adresse email', 'size': 30}),
+            'tel': TextInput(attrs={'placeholder': 'votre numéro de téléphone', 'size': 30}),
+            'tranche_horaire': Select(attrs={'placeholder': 'à quel heure êtes vous disponible?', 'size': 1}),
+        }
